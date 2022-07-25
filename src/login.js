@@ -76,9 +76,7 @@ const App = () => {
           Login
         </Button>
          
-        <Button type="primary" htmlType="submit">
-          Register
-        </Button>
+        
       </Form.Item>
     </Form>
   );
