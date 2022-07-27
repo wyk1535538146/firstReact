@@ -1,6 +1,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Login from './login';
+import RouterMap from './router'
+import './index.css';
 
-ReactDOM.render(<Login />, document.getElementById('root'));
+ReactDOM.render(<RouterMap />, document.getElementById('root'));

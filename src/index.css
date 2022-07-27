@@ -1,12 +1,3 @@
-.login-form {
-    max-width: 300px;
-  }
-  .login-form-forgot {
-    float: right;
-  }
-  .ant-col-rtl .login-form-forgot {
-    float: left;
-  }
-  .login-form-button {
-    width: 100%;
+.code-box-demo .ant-alert {
+    margin-bottom: 16px;
   }
