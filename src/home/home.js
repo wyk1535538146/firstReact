@@ -52,7 +52,8 @@ const columns = [
 
 const App = () => {
 
-  //hook 不是特别懂
+  // hook 不是特别懂
+  // 后台获取数据放到userlist中
   const [userList, setUserList] = useState([]);
   useEffect(() => {
       axios.get('http://127.0.0.1:7001/home').then(({data}) => {         //这里的{data}相当于res.data
@@ -60,26 +61,41 @@ const App = () => {
       })
   },[])
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   return(
       <>
       <div className='bg'>
-          <div className='head'>
-              <Row align='middle'>
-                  <Col span={1} offset={22}>
-                      <Avatar icon={<UserOutlined />} />
-                  </Col>
-                  <Col span={1}>
-                      <a href='' onClick={() => {
-                        localStorage.clear();
-                      }}>注销</a>
-                  </Col>
-              </Row>
-              <br />
-          </div>
+        <div className='head'>
+          <Row align='middle'>
+            <Col span={1} offset={22}>
+              <Avatar icon={<UserOutlined />} />
+            </Col>
+            <Col span={1}>
+              <a href='' onClick={() => {
+                localStorage.clear();
+              }}>注销</a>
+            </Col>
+          </Row>
+          <br />
+        </div>
 
 
-          <Table columns={columns} dataSource={userList} />
+        <Table columns={columns} dataSource={userList} />
       </div>
+
       </>
   );
     
