@@ -32,8 +32,18 @@ const columns = [
     align: 'center',
     render: (_, record) => (
       <Space size="middle">
-        <Button type="primary" danger>禁用</Button>
-        <Button type='primary' disabled='true'>恢复</Button>
+        <Button danger type='default'  disabled={record.disabled === '1' ? true : false} onClick={() => {
+            axios.get('http://127.0.0.1:7001/disable/' + record.email).then((res) => {
+              if(res.data) window.location.reload();
+              else console.log("error")
+            })}}>禁用</Button>
+
+        <Button type='primary' disabled={record.disabled === '0' ? true : false} 
+          onClick={() => {
+            axios.get('http://127.0.0.1:7001/unDisable/' + record.email).then((res) => {
+              if(res.data) window.location.reload();
+              else console.log("error")
+            })}}>恢复</Button>
       </Space>
     ),
   },
@@ -42,34 +52,36 @@ const columns = [
 
 const App = () => {
 
-    const [userList, setUserList] = useState([]);
-    useEffect(() => {
-        axios.get('http://127.0.0.1:7001/home').then(({data}) => {
-            setUserList(data);
-            console.log(data);
-        })
-    },[])
+  //hook 不是特别懂
+  const [userList, setUserList] = useState([]);
+  useEffect(() => {
+      axios.get('http://127.0.0.1:7001/home').then(({data}) => {         //这里的{data}相当于res.data
+        setUserList(data);
+      })
+  },[])
 
-    return(
-        <>
-        <div className='bg'>
-            <div className='head'>
-                <Row align='middle'>
-                    <Col span={1} offset={22}>
-                        <Avatar icon={<UserOutlined />} />
-                    </Col>
-                    <Col span={1}>
-                        <a href=''>注销</a>
-                    </Col>
-                </Row>
-                <br />
-            </div>
+  return(
+      <>
+      <div className='bg'>
+          <div className='head'>
+              <Row align='middle'>
+                  <Col span={1} offset={22}>
+                      <Avatar icon={<UserOutlined />} />
+                  </Col>
+                  <Col span={1}>
+                      <a href='' onClick={() => {
+                        localStorage.clear();
+                      }}>注销</a>
+                  </Col>
+              </Row>
+              <br />
+          </div>
 
 
-            <Table columns={columns} dataSource={userList} />
-        </div>
-        </>
-    );
+          <Table columns={columns} dataSource={userList} />
+      </div>
+      </>
+  );
     
 }
 

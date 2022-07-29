@@ -59,7 +59,7 @@ const App = () => {
     url = url + '/' + email + '/' + password + '/' + nickname + '/' + disabled;
     console.log(url)
     axios.get(url).then((res) => {
-        if(res.data){
+        if(res.data != ""){
           setTimeout("javascript:location.href='/'", 500);
         }
         

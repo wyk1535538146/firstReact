@@ -8,17 +8,30 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link
+  Navigate
 } from "react-router-dom";
+
+//拦截器
+const Authroute = ({children}) => {
+  const authed = localStorage.getItem('login')
+  return authed === 'true' ? (children) : (<Navigate to = '/' replace />)   //跳转到登录
+}
 
 const RouterMap = () => {
   return <Router>
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/home" element={<Home  />} />
+      <Route path="/home" element={
+        <Authroute>
+          <Home  />
+        </Authroute>
+      } />
     </Routes>
   </Router>
 }
+
+
+
 
 export default RouterMap;

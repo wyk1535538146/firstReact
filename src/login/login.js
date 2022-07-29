@@ -1,5 +1,5 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input , Alert} from 'antd';
+import { Button, Checkbox, Form, Input} from 'antd';
 import React from 'react';
 import 'antd/dist/antd.css';
 import './login.css';
@@ -8,16 +8,18 @@ import axios from 'axios';
 const App = () => {
   const onFinish = (values) => {
     var url = 'http://127.0.0.1:7001/login';
-    var uid = values.username;
+    var email = values.email;
     var password = values.password;
-    var remember = values.remember;
-    //console.log('uid: ' + uid + ', password: ' + password + ',remember: ' + remember)
-    url = url + '/' + uid + '/' + password;
-    console.log(url)
+    url = url + '/' + email + '/' + password;
+    //console.log(url)
     axios.get(url).then((res) => {
-      if(res.data){
-        setTimeout("javascript:location.href='/home'", 500);
-      }
+      console.log(res)
+      if(res.data.status == 401) {javascript:alert('账号密码错误！');return;}
+      if(res.data.status == 403) {javascript:alert('登录频繁请稍后再试！');return;}
+      if(res.data.status == 405) {javascript:alert('用户被禁用~');return;}
+      localStorage.setItem("login", "true");
+      localStorage.setItem("user", email);
+      setTimeout("javascript:location.href='/home'", 500);
       
     })
     
@@ -36,15 +38,15 @@ const App = () => {
         action= ""
       >
         <Form.Item
-          name="username"
+          name="email"
           rules={[
             {
               required: true,
-              message: 'Please input your Username!',
+              message: 'Please input your email!',
             },
           ]}
         >
-          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
         </Form.Item>
         <Form.Item
           name="password"
